@@ -1,0 +1,5 @@
+/u/cdm/cs354/ray/build/CMakeFiles/edit_cache.dir
+/u/cdm/cs354/ray/build/CMakeFiles/rebuild_cache.dir
+/u/cdm/cs354/ray/build/src/CMakeFiles/edit_cache.dir
+/u/cdm/cs354/ray/build/src/CMakeFiles/rebuild_cache.dir
+/u/cdm/cs354/ray/build/src/CMakeFiles/ray.dir

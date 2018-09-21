@@ -1,0 +1,45 @@
+#include "TrimeshSubdivide.h"
+
+using namespace std;
+
+void subdivide(char* rayfile) {
+	ofstream output;
+	output.open("trimeshdiv.ray");
+
+	int pointscount = 0;
+	int i = 0;
+
+	string s;
+	smatch m;
+	regex e ("");
+
+	ifstream input;
+	input.open(rayfile);
+	string line;
+	size_t isfound = 0;
+	if (input.is_open()) {
+		while( getline(input, line)) {
+			isfound = line.find("points");
+			if(isfound < string::npos) {
+				i = 1;
+				while( i ) {
+					getline(input, line);
+					isfound = line.find(";");
+					if( isfound < string::npos)
+						i = 0;
+
+					s = line;
+					while( regex_search(s, m, e)) {
+						for (auto x:m) cout << x << " ";
+						cout << endl;
+						s = m.suffix().str();
+					}
+				}
+			}
+		}
+	}
+
+	input.close();
+	output.close();
+
+}

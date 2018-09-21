@@ -1,0 +1,169 @@
+#include "TrimeshSubdivide.h"
+
+using namespace std;
+
+void subdivide(char* rayfile) {
+
+	int swtch = 1;
+	int pointcount = 0;
+	int facecount = 0;
+	int isreading = 0;
+	int i = 0;
+	int count = 0;
+        size_t foundpoints = 0;
+        size_t foundfaces = 0;
+	size_t isfound = 0;
+
+        string s;
+        smatch m;
+        regex e ("([0-9]+([.]([0-9]+))?)");
+
+	ofstream output;
+	output.open("trimeshdiv.ray");
+
+	ifstream testinput;
+	testinput.open(rayfile);
+	string testline;
+
+	if (testinput.is_open()) {
+		while( getline(testinput, testline)) {
+			foundpoints = testline.find("points");
+			foundfaces = testline.find("faces");
+			if( foundpoints < string::npos ) {
+				swtch = 0;
+				while( testline.find(";") == string::npos) {
+					pointcount += 1;
+					getline(testinput, testline);
+				}
+			}
+			if( foundfaces < string::npos ) {
+                                while( testline.find(";") == string::npos) {
+                                        facecount += 1;
+					getline(testinput, testline);
+                                }
+                        }
+			if(swtch) {
+				output << testline << "\n";
+			}
+		}
+
+	}
+	testinput.close();
+
+	double pointx[pointcount];
+	double pointy[pointcount];
+	double pointz[pointcount];
+
+	int face1[facecount];
+	int face2[facecount];
+	int face3[facecount];
+
+	vertex vertices[pointcount];
+	//halfedge halfedges[facecount*3];
+	face faces[facecount];
+
+        ifstream input;
+        input.open(rayfile);
+        string line;
+
+	cout << "in subdivide" << endl;
+        if (input.is_open()) {
+                while( getline(input, line)) {
+                        foundpoints = line.find("points");
+                        foundfaces = line.find("faces");
+			//cout << line << endl;
+                        if(foundpoints < string::npos) {
+                                isreading = 1;
+				count = 0;
+                                while( isreading ) {
+
+                                        getline(input, line);
+					//cout << "in while:: " << line << endl;
+
+                                        isfound = line.find(";");
+                                        if( isfound < string::npos)
+                                                isreading = 0;
+
+                                        s = line;
+					i = 0;
+                                        while( regex_search(s, m, e)) {
+						//cout << m.str(0) << endl;
+						if(i == 0) vertices[count].x = stod(m.str(0));
+                                                if(i == 1) vertices[count].y = stod(m.str(0));
+                                                if(i == 2) vertices[count].z = stod(m.str(0));
+						i+=1;
+                                                s = m.suffix().str();
+                                        }
+					count += 1;
+                                }
+                        }
+			if(foundfaces < string::npos) {
+                                isreading = 1;
+                                count = 0;
+                                while( isreading ) {
+
+                                        getline(input, line);
+                                        //cout << "in while:: " << line << endl;
+
+                                        isfound = line.find(";");
+                                        if( isfound < string::npos)
+                                                isreading = 0;
+
+                                        s = line;
+                                        i = 0;
+                                        while( regex_search(s, m, e)) {
+                                                //cout << m.str(0) << endl;
+                                                if(i == 0) face1[count] = stod(m.str(0));
+                                                if(i == 1) face2[count] = stod(m.str(0));
+                                                if(i == 2) face3[count] = stod(m.str(0));
+						i+=1;
+                                                s = m.suffix().str();
+                                        }
+                                        count += 1;
+                                }
+                        }
+
+                }
+        }
+
+	input.close();
+
+	for( i = 0; i < pointcount; i++) {
+		//cout << "x:: " << vertices[i].x << ", ";
+		//cout << "y:: " << vertices[i].y << ", ";
+		//cout << "z:: " << vertices[i].z << endl;
+		
+
+
+	}
+
+	for( i = 0; i < facecount; i++) {
+		halfedge e1;
+		halfedge e2;
+		halfedge e3;
+
+		e1.next = e2;
+		e2.next = e3;
+		e3.next = e1;
+
+		e1.prev = e3;
+		e2.prev = e1;
+		e3.prev = e2;
+
+		e1.f = faces[i];
+		e2.f = faces[i];
+		e3.f = faces[i];
+
+		faces[i].e = e1;
+	}
+
+	int j;
+	for( i = 0; i < facecount; i++) {
+		for( j = 0; j < 3; j++) {
+			faces[i].e
+		}
+	}
+
+	output.close();
+
+}

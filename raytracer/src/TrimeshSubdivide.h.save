@@ -1,0 +1,46 @@
+#include<iostream>
+#include<sstream>
+#include<string>
+#include<fstream>
+#include<vector>
+#include<cmath>
+#include<regex>
+#include<utility>
+
+using namespace std;
+
+
+struct halfedge;
+struct vertex;
+
+
+struct face {
+	pair<unsigned int, unsigned int> ei[3];
+	halfedge *e;
+};
+
+struct halfedge {
+	halfedge *next;
+	//halfedge *prev;
+	halfedge *twin;
+	vertex *v;
+	face *f;
+	bool isnew;
+	vertex *newv
+	double newx;
+	double newy;
+	double newz;
+};
+
+struct vertex {
+	double x;
+	double y;
+	double z;
+	halfedge *e;
+	bool isnew;
+	double newx;
+	double newy;
+	double newz;
+};
+
+void subdivide(char* rayfile);

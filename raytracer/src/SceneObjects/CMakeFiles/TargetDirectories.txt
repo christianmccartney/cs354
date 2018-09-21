@@ -1,0 +1,3 @@
+/u/cdm/cs354/ray/src/SceneObjects/CMakeFiles/edit_cache.dir
+/u/cdm/cs354/ray/src/SceneObjects/CMakeFiles/rebuild_cache.dir
+/u/cdm/cs354/ray/src/SceneObjects/CMakeFiles/ray.dir
